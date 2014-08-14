@@ -75,7 +75,6 @@ class Dialog():
 			self.add_buttons()
 		self._pack_buttons()
 		self._add_message(self._message, messagewidth)
-		self._resize_widgets()
 		self._resize_labels()
 		self._center_window(self._root)
 		self._root.mainloop()
@@ -138,10 +137,10 @@ class Dialog():
 		'''
 		dropdownVal = common.get_value_variable(values)
 		self._variables.append(dropdownVal)
-		longestValue = max(str(values), key=len)
-		dropdownVal.set(longestValue)
 
+		longestWord = max(map(str, values), key=len)
 		dropdown = widgets.StyledDropdown(self._root, dropdownVal, *values)
+		dropdown.config(width=len(longestWord) + 2)  # includes padding for arrow
 		self._pack_widget(dropdown, labelText=label, fillColumn=True)
 		dropdownVal.set(defaultValue)
 		
@@ -330,14 +329,6 @@ class Dialog():
 		y = (win.winfo_screenheight() / 2) - (win_height / 2)
 		geom = (win.winfo_width(), win.winfo_height(), x, y)
 		win.geometry('{0}x{1}+{2}+{3}'.format(*geom))
-
-
-	def _resize_widgets(self):
-		'''Resizes all widgets to a uniform width.'''
-		for widget in self._widgets:
-			widget.configure(width=
-							self._widgetwidth / len(self._widgets) - self._widgetwidth / len(self._widgets)
-							)
 	
 	
 	def _resize_labels(self):
